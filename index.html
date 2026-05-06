@@ -4,512 +4,397 @@
 <meta charset="utf-8">
 <title>Plugins, Skills, MCPs — was ist was?</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Drei Wege Claude Code zu erweitern — verständlich erklärt für Workshop-Teilnehmer. Eine Seite, drei Karten, eine Entscheidung.">
+<meta name="description" content="Drei Wege Claude Code zu erweitern. Eine Seite. Eine Entscheidung.">
 <style>
   :root {
     --bg: #faf6ef;
-    --ink: #1a1814;
-    --ink-soft: #5a544a;
-    --ink-faint: #8a8478;
+    --ink: #15110b;
+    --ink-soft: #6a6358;
+    --ink-faint: #9a9484;
     --paper: #ffffff;
-    --line: #e8e1d3;
+    --line: #ece5d4;
 
-    --mcp: #a78bfa;
-    --mcp-soft: #ede9fe;
-    --mcp-deep: #6d28d9;
+    --mcp:    #a78bfa;
+    --mcp-soft:#ede9fe;
+    --mcp-deep:#5b21b6;
 
-    --skill: #5eead4;
-    --skill-soft: #ccfbf1;
-    --skill-deep: #0d9488;
+    --skill:  #2dd4bf;
+    --skill-soft:#ccfbf1;
+    --skill-deep:#0d9488;
 
     --plugin: #fbbf24;
-    --plugin-soft: #fef3c7;
-    --plugin-deep: #b45309;
+    --plugin-soft:#fef3c7;
+    --plugin-deep:#b45309;
   }
   * { box-sizing: border-box; }
   html, body {
     margin: 0; padding: 0;
     background:
-      radial-gradient(1100px 700px at 85% -20%, #ede9fe 0%, transparent 60%),
-      radial-gradient(900px 600px at -15% 20%, #ccfbf1 0%, transparent 55%),
-      radial-gradient(800px 600px at 50% 110%, #fef3c7 0%, transparent 60%),
+      radial-gradient(900px 700px at 90% -10%, #ede9fe 0%, transparent 55%),
+      radial-gradient(800px 600px at -10% 30%, #ccfbf1 0%, transparent 55%),
+      radial-gradient(700px 500px at 60% 110%, #fef3c7 0%, transparent 60%),
       var(--bg);
     color: var(--ink);
-    font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Inter", "Helvetica Neue", system-ui, sans-serif;
-    line-height: 1.55;
+    font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Inter", system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
   }
   a { color: inherit; }
-  a.link {
-    color: var(--ink);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    text-decoration-thickness: 1.5px;
-    text-decoration-color: rgba(0,0,0,0.25);
-    transition: text-decoration-color 0.15s;
-  }
-  a.link:hover { text-decoration-color: rgba(0,0,0,0.85); }
   code, pre { font-family: ui-monospace, "JetBrains Mono", "SF Mono", Menlo, monospace; }
 
   .wrap {
-    max-width: 1180px;
+    max-width: 1100px;
     margin: 0 auto;
-    padding: 56px 28px 80px;
+    padding: 88px 32px 96px;
   }
 
   /* ---------- HERO ---------- */
-  .hero { margin-bottom: 56px; }
   .eyebrow {
     display: inline-block;
-    font-size: 12px;
-    letter-spacing: 1.8px;
+    font-size: 11px;
+    letter-spacing: 2px;
     text-transform: uppercase;
     color: var(--ink-soft);
-    background: var(--paper);
-    border: 1px solid var(--line);
-    padding: 6px 12px;
-    border-radius: 999px;
+    margin-bottom: 28px;
   }
   h1 {
-    font-size: clamp(40px, 6vw, 68px);
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    margin: 18px 0 14px;
+    font-size: clamp(48px, 8.5vw, 104px);
+    line-height: 0.96;
+    letter-spacing: -0.035em;
+    margin: 0 0 28px;
     font-weight: 800;
   }
   h1 .pill {
     display: inline-block;
-    padding: 0 14px;
-    border-radius: 14px;
-    transform: translateY(-4px);
-    margin: 0 2px;
+    padding: 0.04em 0.22em 0.08em;
+    border-radius: 0.18em;
+    transform: rotate(-1.5deg);
+    margin: 0 0.04em;
   }
-  h1 .pill.mcp    { background: var(--mcp);    color: #1a1135; }
-  h1 .pill.skill  { background: var(--skill);  color: #0a2a26; }
-  h1 .pill.plugin { background: var(--plugin); color: #3a2806; }
+  h1 .pill.mcp    { background: var(--mcp);    color: #1a1135; transform: rotate(-2.2deg); }
+  h1 .pill.skill  { background: var(--skill);  color: #0a2a26; transform: rotate(1.8deg); }
+  h1 .pill.plugin { background: var(--plugin); color: #3a2806; transform: rotate(-1deg); }
   .lede {
-    font-size: 19px;
+    font-size: clamp(18px, 2vw, 22px);
     color: var(--ink-soft);
-    max-width: 720px;
+    max-width: 540px;
+    line-height: 1.5;
     margin: 0;
   }
-  .lede strong { color: var(--ink); font-weight: 600; }
 
   /* ---------- THREE CARDS ---------- */
   .cards {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 22px;
-    margin: 56px 0 64px;
+    margin: 96px 0 0;
   }
   .card {
     background: var(--paper);
-    border-radius: 22px;
-    padding: 28px 26px 26px;
+    border-radius: 24px;
+    padding: 36px 30px 30px;
     border: 1.5px solid var(--line);
-    box-shadow: 0 1px 0 rgba(0,0,0,0.02), 0 22px 40px -28px rgba(0,0,0,0.18);
+    box-shadow: 0 1px 0 rgba(0,0,0,0.02), 0 30px 50px -36px rgba(0,0,0,0.22);
+    transition: transform 0.2s cubic-bezier(.2,.7,.2,1), box-shadow 0.2s, border-color 0.2s;
     position: relative;
-    transition: transform 0.18s cubic-bezier(.2,.7,.2,1), box-shadow 0.18s, border-color 0.18s;
     min-width: 0;
+    display: flex;
+    flex-direction: column;
   }
-  .card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 1px 0 rgba(0,0,0,0.02), 0 30px 50px -28px rgba(0,0,0,0.28);
-  }
+  .card:hover { transform: translateY(-4px); }
   .card.mcp:hover    { border-color: var(--mcp); }
   .card.skill:hover  { border-color: var(--skill); }
   .card.plugin:hover { border-color: var(--plugin); }
 
-  .card .ribbon {
-    position: absolute; top: -10px; left: 26px;
-    font-size: 11px; letter-spacing: 1.6px; text-transform: uppercase;
-    padding: 5px 10px; border-radius: 999px;
-    font-weight: 700;
+  .card .num {
+    position: absolute; top: 24px; right: 28px;
+    font-family: ui-monospace, monospace;
+    font-size: 13px;
+    color: var(--ink-faint);
+    font-weight: 600;
+    letter-spacing: 1px;
   }
-  .card.mcp    .ribbon { background: var(--mcp);    color: #1a1135; }
-  .card.skill  .ribbon { background: var(--skill);  color: #0a2a26; }
-  .card.plugin .ribbon { background: var(--plugin); color: #3a2806; }
-
   .card .icon {
-    width: 56px; height: 56px;
-    border-radius: 16px;
+    width: 64px; height: 64px;
+    border-radius: 18px;
     display: grid; place-items: center;
-    font-size: 30px;
-    margin-bottom: 14px;
+    font-size: 34px;
+    margin-bottom: 28px;
   }
   .card.mcp    .icon { background: var(--mcp-soft); }
   .card.skill  .icon { background: var(--skill-soft); }
   .card.plugin .icon { background: var(--plugin-soft); }
 
   .card h2 {
-    font-size: 26px;
-    letter-spacing: -0.01em;
-    margin: 0 0 4px;
+    font-size: 32px;
+    letter-spacing: -0.02em;
+    margin: 0 0 6px;
     font-weight: 800;
   }
   .card .tagline {
-    font-size: 14px;
+    font-size: 13px;
     color: var(--ink-faint);
-    margin-bottom: 16px;
-    font-weight: 500;
+    margin: 0 0 22px;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    font-weight: 600;
   }
   .card p {
-    font-size: 15px;
-    color: var(--ink-soft);
-    margin: 0 0 16px;
+    font-size: 17px;
+    color: var(--ink);
+    margin: 0 0 28px;
+    line-height: 1.45;
+    flex: 1;
   }
   .card pre {
-    background: #faf6ed;
-    border: 1px solid var(--line);
-    border-radius: 10px;
-    padding: 12px 14px;
-    margin: 0 0 14px;
-    font-size: 13px;
+    background: #0f0e0a;
+    color: #f7f1e1;
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin: 0 0 18px;
+    font-size: 12.5px;
     overflow-x: auto;
-    line-height: 1.45;
+    line-height: 1.5;
   }
-  .card pre .c { color: var(--ink-faint); }
-  .card .tag {
-    display: inline-block;
-    font-size: 12px;
-    padding: 4px 10px;
-    border-radius: 999px;
-    margin: 2px 4px 2px 0;
-  }
-  .card.mcp    .tag { background: var(--mcp-soft);    color: var(--mcp-deep); }
-  .card.skill  .tag { background: var(--skill-soft);  color: var(--skill-deep); }
-  .card.plugin .tag { background: var(--plugin-soft); color: var(--plugin-deep); }
+  .card pre .c { color: #9a9484; }
+  .card pre .k { color: #fbbf24; }
   .card .docs {
-    margin-top: 16px;
-    padding-top: 16px;
-    border-top: 1px dashed var(--line);
+    margin-top: auto;
+    padding-top: 4px;
     font-size: 14px;
+    font-weight: 600;
   }
-  .card .docs a { display: inline-block; margin-right: 14px; }
+  .card .docs a {
+    text-decoration: none;
+    color: var(--ink);
+    border-bottom: 1.5px solid currentColor;
+    padding-bottom: 1px;
+    transition: color 0.15s;
+  }
+  .card.mcp    .docs a:hover { color: var(--mcp-deep); }
+  .card.skill  .docs a:hover { color: var(--skill-deep); }
+  .card.plugin .docs a:hover { color: var(--plugin-deep); }
+  .card .docs a + a { margin-left: 18px; }
 
-  /* ---------- COMPARE TABLE ---------- */
-  .section-title {
-    font-size: 28px;
+  /* ---------- DECISION ---------- */
+  .decide {
+    margin-top: 120px;
+    text-align: center;
+  }
+  .decide h2 {
+    font-size: clamp(32px, 4.5vw, 56px);
+    letter-spacing: -0.025em;
+    margin: 0 0 56px;
     font-weight: 800;
-    letter-spacing: -0.01em;
-    margin: 0 0 8px;
+    line-height: 1.05;
   }
-  .section-sub {
-    color: var(--ink-soft);
-    margin: 0 0 24px;
-    font-size: 16px;
+  .qline {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    max-width: 720px;
+    margin: 0 auto;
   }
-  .compare {
+  .qline .row {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 24px;
     background: var(--paper);
     border-radius: 18px;
+    padding: 22px 28px;
     border: 1.5px solid var(--line);
-    overflow: hidden;
-    box-shadow: 0 1px 0 rgba(0,0,0,0.02);
-  }
-  .compare table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 15px;
-  }
-  .compare th, .compare td {
     text-align: left;
-    padding: 14px 18px;
-    vertical-align: top;
-    border-bottom: 1px solid var(--line);
+    transition: border-color 0.2s, transform 0.2s;
   }
-  .compare tr:last-child th, .compare tr:last-child td { border-bottom: none; }
-  .compare thead th {
-    background: #fbf7ee;
-    font-size: 13px;
-    letter-spacing: 1.4px;
-    text-transform: uppercase;
-    font-weight: 700;
-    border-bottom: 1.5px solid var(--line);
-  }
-  .compare thead th.h-mcp    { background: var(--mcp-soft);    color: var(--mcp-deep); }
-  .compare thead th.h-skill  { background: var(--skill-soft);  color: var(--skill-deep); }
-  .compare thead th.h-plugin { background: var(--plugin-soft); color: var(--plugin-deep); }
-  .compare tbody th {
-    background: #fbf7ee;
-    color: var(--ink-faint);
-    font-weight: 600;
-    font-size: 13px;
-    letter-spacing: 0.6px;
-    width: 130px;
-  }
-  .compare td code {
-    background: #f4eee0;
-    padding: 1px 6px;
-    border-radius: 4px;
-    font-size: 13px;
-  }
-
-  /* ---------- DECISION TREE ---------- */
-  .decide { margin-top: 64px; }
-  .decide-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
-    margin-top: 24px;
-  }
-  .q {
-    padding: 22px 22px 18px;
-    background: var(--paper);
-    border-radius: 16px;
-    border: 1.5px solid var(--line);
-    position: relative;
-  }
-  .q .num {
-    font-family: ui-monospace, monospace;
-    font-size: 12px;
-    color: var(--ink-faint);
-    letter-spacing: 1.5px;
-  }
-  .q .ask {
-    font-size: 18px;
-    font-weight: 700;
-    margin: 6px 0 14px;
-    line-height: 1.3;
-  }
-  .q .arrow {
-    font-size: 22px;
-    margin: 0 0 4px;
-    color: var(--ink-faint);
-  }
-  .q .answer {
+  .qline .row:hover { transform: translateY(-2px); }
+  .qline .row.mcp:hover    { border-color: var(--mcp); }
+  .qline .row.skill:hover  { border-color: var(--skill); }
+  .qline .row.plugin:hover { border-color: var(--plugin); }
+  .qline .ask {
     font-size: 17px;
+    line-height: 1.35;
+    color: var(--ink);
+  }
+  .qline .arrow {
+    color: var(--ink-faint);
+    font-size: 22px;
+  }
+  .qline .ans {
+    font-size: 18px;
     font-weight: 800;
     letter-spacing: -0.005em;
+    text-align: right;
   }
-  .q.mcp    { border-left: 5px solid var(--mcp); }
-  .q.skill  { border-left: 5px solid var(--skill); }
-  .q.plugin { border-left: 5px solid var(--plugin); }
-  .q.mcp    .answer { color: var(--mcp-deep); }
-  .q.skill  .answer { color: var(--skill-deep); }
-  .q.plugin .answer { color: var(--plugin-deep); }
+  .qline .row.mcp    .ans { color: var(--mcp-deep); }
+  .qline .row.skill  .ans { color: var(--skill-deep); }
+  .qline .row.plugin .ans { color: var(--plugin-deep); }
 
   /* ---------- READ MORE ---------- */
-  .more { margin-top: 64px; }
+  .more {
+    margin-top: 120px;
+    text-align: center;
+  }
+  .more h2 {
+    font-size: 14px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    font-weight: 700;
+    margin: 0 0 24px;
+  }
   .links {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px 24px;
-    margin-top: 18px;
-    padding: 24px 26px;
-    background: var(--paper);
-    border-radius: 16px;
-    border: 1.5px solid var(--line);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px 14px;
+    max-width: 800px;
+    margin: 0 auto;
   }
   .links a {
-    display: block;
-    padding: 8px 0;
-    font-size: 15px;
-    border-bottom: 1px solid var(--line);
+    text-decoration: none;
+    background: var(--paper);
+    border: 1.5px solid var(--line);
+    color: var(--ink);
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: border-color 0.15s, transform 0.15s;
   }
-  .links a:last-child, .links a:nth-last-child(2) { border-bottom: none; }
-  .links a .url-host {
-    color: var(--ink-faint);
-    font-size: 12px;
-    font-family: ui-monospace, monospace;
-    margin-left: 8px;
-  }
+  .links a:hover { border-color: var(--ink); transform: translateY(-1px); }
 
   /* ---------- FOOTER ---------- */
   footer {
-    margin-top: 64px;
-    padding-top: 24px;
+    margin-top: 96px;
+    padding-top: 32px;
     border-top: 1px solid var(--line);
     color: var(--ink-faint);
-    font-size: 14px;
+    font-size: 13px;
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 12px;
   }
+  footer a {
+    text-decoration: none;
+    color: var(--ink-soft);
+    border-bottom: 1px solid var(--line);
+  }
+  footer a:hover { color: var(--ink); border-bottom-color: var(--ink); }
 
   /* ---------- RESPONSIVE ---------- */
   @media (max-width: 880px) {
-    .cards { grid-template-columns: 1fr; }
-    .decide-grid { grid-template-columns: 1fr; }
-    .links { grid-template-columns: 1fr; }
-    .links a:nth-last-child(2) { border-bottom: 1px solid var(--line); }
-    .compare { overflow-x: auto; }
+    .wrap { padding: 56px 22px 64px; }
+    .cards { grid-template-columns: 1fr; gap: 16px; margin-top: 64px; }
+    .qline .row { grid-template-columns: 1fr; gap: 8px; padding: 20px 22px; }
+    .qline .arrow { display: none; }
+    .qline .ans { text-align: left; }
+    .decide { margin-top: 80px; }
+    .more { margin-top: 80px; }
   }
 </style>
 </head>
 <body>
 <div class="wrap">
 
-  <!-- HERO -->
-  <header class="hero">
-    <span class="eyebrow">AI Computer Use Workshop · Wien · 06.05.2026</span>
-    <h1>Plugins, Skills,<br>MCPs — <span class="pill mcp">was</span> <span class="pill skill">ist</span> <span class="pill plugin">was?</span></h1>
-    <p class="lede">Drei Wege, Claude Code zu erweitern. Sie heißen ähnlich, sie tun ähnliches — und doch sind sie <strong>klar verschieden</strong>. Diese Seite erklärt in einem Sitz, welcher Weg wann der richtige ist.</p>
+  <header>
+    <span class="eyebrow">Claude Code · Wien · 06.05.2026</span>
+    <h1>
+      <span class="pill mcp">Plugins</span>,<br>
+      <span class="pill skill">Skills</span>,<br>
+      <span class="pill plugin">MCPs</span>.
+    </h1>
+    <p class="lede">Drei Wege, Claude Code zu erweitern. Klar verschieden, oft verwechselt.</p>
   </header>
 
-  <!-- THREE CARDS -->
   <section class="cards">
 
     <article class="card mcp">
-      <span class="ribbon">MCP</span>
-      <div class="icon" aria-hidden="true">⚙️</div>
-      <h2>MCP-Server</h2>
+      <span class="num">01</span>
+      <div class="icon">⚙️</div>
+      <h2>MCP</h2>
       <div class="tagline">Tools zur Laufzeit</div>
-      <p>Ein externer Prozess, der Claude über das offene <strong>Model Context Protocol</strong> Werkzeuge anbietet — eine API anrufen, eine Datenbank lesen, ein Browser steuern. Claude entscheidet selbst, wann es das Werkzeug benutzt.</p>
-      <pre><span class="c"># MCP installieren (Beispiel: Chrome DevTools)</span>
-claude mcp add chrome-devtools \
+      <p>Ein externer Prozess gibt Claude Werkzeuge — eine API anrufen, einen Browser steuern, eine Datenbank lesen.</p>
+<pre><span class="c"># Chrome-DevTools als MCP</span>
+<span class="k">claude</span> mcp add chrome-devtools \
   -- npx -y chrome-devtools-mcp@latest</pre>
-      <span class="tag">stdio / HTTP</span>
-      <span class="tag">JSON-RPC</span>
-      <span class="tag">live tools</span>
       <div class="docs">
-        <a class="link" href="https://code.claude.com/docs/en/mcp" target="_blank" rel="noopener">Claude Code MCP Docs →</a>
-        <a class="link" href="https://modelcontextprotocol.io" target="_blank" rel="noopener">MCP-Spec →</a>
+        <a href="https://code.claude.com/docs/en/mcp" target="_blank" rel="noopener">Docs</a>
+        <a href="https://modelcontextprotocol.io" target="_blank" rel="noopener">Spec</a>
       </div>
     </article>
 
     <article class="card skill">
-      <span class="ribbon">Skill</span>
-      <div class="icon" aria-hidden="true">📖</div>
-      <h2>Agent Skills</h2>
-      <div class="tagline">Playbook das Claude liest</div>
-      <p>Ein Markdown-Ordner mit <code>SKILL.md</code> + Frontmatter. Claude erkennt am <strong>Description</strong>-Feld automatisch, wann der Skill relevant ist, und lädt nur dann den vollen Inhalt. Ideal für wiederkehrende Workflows.</p>
-      <pre><span class="c"># Eigenen Skill anlegen</span>
-mkdir -p ~/.claude/skills/git-summary
-cat &gt; ~/.claude/skills/git-summary/SKILL.md &lt;&lt;'EOF'
----
-description: Summarize uncommitted git changes
----
-Run `git diff HEAD` and summarize in 2-3 bullets.
-EOF</pre>
-      <span class="tag">SKILL.md</span>
-      <span class="tag">Auto oder /name</span>
-      <span class="tag">Markdown only</span>
+      <span class="num">02</span>
+      <div class="icon">📖</div>
+      <h2>Skill</h2>
+      <div class="tagline">Anleitung die Claude liest</div>
+      <p>Eine Markdown-Datei mit Frontmatter. Lädt automatisch, sobald die Beschreibung zur Aufgabe passt.</p>
+<pre><span class="c"># Skill-Datei anlegen</span>
+~/.claude/skills/<span class="k">my-skill</span>/SKILL.md
+&nbsp;
+<span class="c">---</span>
+description: Summarize git diff
+<span class="c">---</span></pre>
       <div class="docs">
-        <a class="link" href="https://code.claude.com/docs/en/skills" target="_blank" rel="noopener">Claude Code Skills Docs →</a>
+        <a href="https://code.claude.com/docs/en/skills" target="_blank" rel="noopener">Docs</a>
       </div>
     </article>
 
     <article class="card plugin">
-      <span class="ribbon">Plugin</span>
-      <div class="icon" aria-hidden="true">📦</div>
-      <h2>Plugins</h2>
+      <span class="num">03</span>
+      <div class="icon">📦</div>
+      <h2>Plugin</h2>
       <div class="tagline">Bündel zum Verteilen</div>
-      <p>Ein versioniertes Paket, das mehrere <strong>Skills + MCPs + Slash-Commands + Hooks</strong> zusammenfasst. Wird über einen <em>Marketplace</em> verteilt — ein GitHub-Repo, eine URL, oder Anthropics offiziellen Plugin-Store.</p>
-      <pre><span class="c"># Plugin aus offiziellem Marketplace installieren</span>
-/plugin install frontend-design@claude-plugins-official</pre>
-      <span class="tag">Skills + MCPs</span>
-      <span class="tag">Marketplace</span>
-      <span class="tag">Team-Distribution</span>
+      <p>Skills, MCPs, Slash-Commands und Hooks in einem versionierten Paket. Aus einem Marketplace installiert.</p>
+<pre><span class="c"># Aus offiziellem Marketplace</span>
+/plugin install \
+  <span class="k">frontend-design</span>@claude-plugins-official</pre>
       <div class="docs">
-        <a class="link" href="https://code.claude.com/docs/en/plugins" target="_blank" rel="noopener">Plugins-Docs →</a>
-        <a class="link" href="https://claude.com/plugins" target="_blank" rel="noopener">Plugin-Marketplace →</a>
+        <a href="https://code.claude.com/docs/en/plugins" target="_blank" rel="noopener">Docs</a>
+        <a href="https://claude.com/plugins" target="_blank" rel="noopener">Marketplace</a>
       </div>
     </article>
 
   </section>
 
-  <!-- COMPARE TABLE -->
-  <section class="compare-section">
-    <h2 class="section-title">Direktvergleich</h2>
-    <p class="section-sub">Sechs Achsen auf denen MCPs, Skills und Plugins sich unterscheiden.</p>
-    <div class="compare">
-      <table>
-        <thead>
-          <tr>
-            <th></th>
-            <th class="h-mcp">⚙️ MCP</th>
-            <th class="h-skill">📖 Skill</th>
-            <th class="h-plugin">📦 Plugin</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th>Was ist es</th>
-            <td>Externer Tool-Server (JSON-RPC über stdio/HTTP)</td>
-            <td>Markdown-Playbook mit <code>SKILL.md</code></td>
-            <td>Versioniertes Bündel: Skills + MCPs + Commands + Hooks</td>
-          </tr>
-          <tr>
-            <th>Wann benutzen</th>
-            <td>Claude braucht <em>Daten oder Aktionen</em> in Echtzeit</td>
-            <td>Wiederkehrender Workflow, Checkliste, Domänen-Wissen</td>
-            <td>Mehreres davon zusammen verteilen — Team, Community</td>
-          </tr>
-          <tr>
-            <th>Wer liefert</th>
-            <td>Drittanbieter, Anthropic, eigene Server</td>
-            <td>Du, dein Team, projekt-lokal</td>
-            <td>Du, Anthropic, Community via Marketplaces</td>
-          </tr>
-          <tr>
-            <th>Installation</th>
-            <td><code>claude mcp add &lt;name&gt; -- &lt;cmd&gt;</code></td>
-            <td><code>~/.claude/skills/&lt;name&gt;/SKILL.md</code></td>
-            <td><code>/plugin install &lt;name&gt;@&lt;marketplace&gt;</code></td>
-          </tr>
-          <tr>
-            <th>Aufruf</th>
-            <td>Automatisch wenn relevant</td>
-            <td>Auto (Description-Match) oder <code>/&lt;name&gt;</code></td>
-            <td><code>/&lt;plugin&gt;:&lt;skill&gt;</code> oder Tools werden registriert</td>
-          </tr>
-          <tr>
-            <th>Lebt wo</th>
-            <td>Eigener Prozess + Eintrag in <code>~/.claude.json</code></td>
-            <td>Datei: <code>SKILL.md</code> in Skill-Verzeichnis</td>
-            <td><code>~/.claude/plugins/</code> + Marketplace-Eintrag</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <!-- DECISION TREE -->
   <section class="decide">
-    <h2 class="section-title">Welcher Weg ist meiner?</h2>
-    <p class="section-sub">Drei Fragen, drei Antworten.</p>
-    <div class="decide-grid">
-      <div class="q mcp">
-        <div class="num">FRAGE 01</div>
-        <div class="ask">Brauchst du Daten, eine API oder eine Aktion in der Außenwelt — zur Laufzeit?</div>
-        <div class="arrow">↓</div>
-        <div class="answer">→ Bau einen MCP</div>
+    <h2>Welcher Weg ist meiner?</h2>
+    <div class="qline">
+      <div class="row mcp">
+        <div class="ask">Brauchst du Tools, Daten oder Aktionen in Echtzeit?</div>
+        <div class="arrow">→</div>
+        <div class="ans">MCP</div>
       </div>
-      <div class="q skill">
-        <div class="num">FRAGE 02</div>
-        <div class="ask">Hast du einen wiederkehrenden Arbeitsablauf, den Claude jedes Mal gleich machen soll?</div>
-        <div class="arrow">↓</div>
-        <div class="answer">→ Schreib einen Skill</div>
+      <div class="row skill">
+        <div class="ask">Wiederholt sich derselbe Arbeitsablauf?</div>
+        <div class="arrow">→</div>
+        <div class="ans">Skill</div>
       </div>
-      <div class="q plugin">
-        <div class="num">FRAGE 03</div>
-        <div class="ask">Willst du mehrere Skills + MCPs zusammen mit deinem Team oder der Community teilen?</div>
-        <div class="arrow">↓</div>
-        <div class="answer">→ Pack ein Plugin</div>
+      <div class="row plugin">
+        <div class="ask">Willst du das mit anderen teilen?</div>
+        <div class="arrow">→</div>
+        <div class="ans">Plugin</div>
       </div>
     </div>
   </section>
 
-  <!-- READ MORE -->
   <section class="more">
-    <h2 class="section-title">Mehr lesen</h2>
-    <p class="section-sub">Nur kanonische Quellen — alle direkt aus den offiziellen Anthropic-Docs und der MCP-Spec.</p>
+    <h2>Mehr lesen</h2>
     <div class="links">
-      <a class="link" href="https://code.claude.com/docs/en/mcp" target="_blank" rel="noopener">Claude Code MCP-Integration <span class="url-host">code.claude.com</span></a>
-      <a class="link" href="https://modelcontextprotocol.io" target="_blank" rel="noopener">Model Context Protocol Spec <span class="url-host">modelcontextprotocol.io</span></a>
-      <a class="link" href="https://code.claude.com/docs/en/skills" target="_blank" rel="noopener">Agent Skills Doku <span class="url-host">code.claude.com</span></a>
-      <a class="link" href="https://code.claude.com/docs/en/plugins" target="_blank" rel="noopener">Plugins erstellen <span class="url-host">code.claude.com</span></a>
-      <a class="link" href="https://code.claude.com/docs/en/discover-plugins" target="_blank" rel="noopener">Plugins finden &amp; installieren <span class="url-host">code.claude.com</span></a>
-      <a class="link" href="https://code.claude.com/docs/en/plugin-marketplaces" target="_blank" rel="noopener">Eigenen Marketplace bauen <span class="url-host">code.claude.com</span></a>
-      <a class="link" href="https://claude.com/plugins" target="_blank" rel="noopener">Offizieller Plugin-Marketplace <span class="url-host">claude.com</span></a>
-      <a class="link" href="https://api.anthropic.com/mcp-registry/v0/servers" target="_blank" rel="noopener">Offizielles MCP-Registry (API) <span class="url-host">api.anthropic.com</span></a>
+      <a href="https://code.claude.com/docs/en/mcp" target="_blank" rel="noopener">MCP-Integration</a>
+      <a href="https://modelcontextprotocol.io" target="_blank" rel="noopener">MCP-Spec</a>
+      <a href="https://code.claude.com/docs/en/skills" target="_blank" rel="noopener">Skills</a>
+      <a href="https://code.claude.com/docs/en/plugins" target="_blank" rel="noopener">Plugins</a>
+      <a href="https://code.claude.com/docs/en/discover-plugins" target="_blank" rel="noopener">Plugins finden</a>
+      <a href="https://code.claude.com/docs/en/plugin-marketplaces" target="_blank" rel="noopener">Marketplaces bauen</a>
+      <a href="https://claude.com/plugins" target="_blank" rel="noopener">Offizieller Store</a>
     </div>
   </section>
 
   <footer>
     <span>AI Computer Use Workshop · Wien · 06.05.2026</span>
-    <a class="link" href="https://github.com/nichtagentur/cc-extensions" target="_blank" rel="noopener">Quelltext auf GitHub →</a>
+    <a href="https://github.com/nichtagentur/cc-extensions" target="_blank" rel="noopener">GitHub →</a>
   </footer>
 
 </div>
