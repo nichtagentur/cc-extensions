@@ -91,7 +91,7 @@
   .card {
     background: var(--paper);
     border-radius: 24px;
-    padding: 36px 30px 30px;
+    padding: 0;
     border: 1.5px solid var(--line);
     box-shadow: 0 1px 0 rgba(0,0,0,0.02), 0 30px 50px -36px rgba(0,0,0,0.22);
     transition: transform 0.2s cubic-bezier(.2,.7,.2,1), box-shadow 0.2s, border-color 0.2s;
@@ -99,6 +99,20 @@
     min-width: 0;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
+  }
+  .card .photo {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    display: block;
+    border-bottom: 1.5px solid var(--line);
+  }
+  .card .body {
+    padding: 28px 30px 30px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
   }
   .card:hover { transform: translateY(-4px); }
   .card.mcp:hover    { border-color: var(--mcp); }
@@ -106,23 +120,24 @@
   .card.plugin:hover { border-color: var(--plugin); }
 
   .card .num {
-    position: absolute; top: 24px; right: 28px;
+    position: absolute; top: 16px; right: 18px;
     font-family: ui-monospace, monospace;
-    font-size: 13px;
-    color: var(--ink-faint);
-    font-weight: 600;
-    letter-spacing: 1px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    background: rgba(15,14,10,0.78);
+    color: #f7f1e1;
+    padding: 4px 10px;
+    border-radius: 999px;
+    backdrop-filter: blur(4px);
   }
-  .card .icon {
-    width: 64px; height: 64px;
-    border-radius: 18px;
-    display: grid; place-items: center;
-    font-size: 34px;
-    margin-bottom: 28px;
+  .card .accent {
+    height: 4px;
+    width: 100%;
   }
-  .card.mcp    .icon { background: var(--mcp-soft); }
-  .card.skill  .icon { background: var(--skill-soft); }
-  .card.plugin .icon { background: var(--plugin-soft); }
+  .card.mcp    .accent { background: var(--mcp); }
+  .card.skill  .accent { background: var(--skill); }
+  .card.plugin .accent { background: var(--plugin); }
 
   .card h2 {
     font-size: 32px;
@@ -310,49 +325,58 @@
   <section class="cards">
 
     <article class="card mcp">
-      <span class="num">01</span>
-      <div class="icon">⚙️</div>
-      <h2>MCP</h2>
-      <div class="tagline">Tools zur Laufzeit</div>
-      <p>Ein externer Prozess gibt Claude Werkzeuge — eine API anrufen, einen Browser steuern, eine Datenbank lesen.</p>
+      <span class="num">01 · MCP</span>
+      <img class="photo" src="images/mcp.jpg" alt="Lederwerkzeugrolle mit Messingpräzisionsinstrumenten auf einer Werkbank — Metapher für MCP als Werkzeugsatz zur Laufzeit." loading="lazy">
+      <div class="accent"></div>
+      <div class="body">
+        <h2>MCP</h2>
+        <div class="tagline">Tools zur Laufzeit</div>
+        <p>Ein externer Prozess gibt Claude Werkzeuge — eine API anrufen, einen Browser steuern, eine Datenbank lesen.</p>
 <pre><span class="c"># Chrome-DevTools als MCP</span>
 <span class="k">claude</span> mcp add chrome-devtools \
   -- npx -y chrome-devtools-mcp@latest</pre>
-      <div class="docs">
-        <a href="https://code.claude.com/docs/en/mcp" target="_blank" rel="noopener">Docs</a>
-        <a href="https://modelcontextprotocol.io" target="_blank" rel="noopener">Spec</a>
+        <div class="docs">
+          <a href="https://code.claude.com/docs/en/mcp" target="_blank" rel="noopener">Docs</a>
+          <a href="https://modelcontextprotocol.io" target="_blank" rel="noopener">Spec</a>
+        </div>
       </div>
     </article>
 
     <article class="card skill">
-      <span class="num">02</span>
-      <div class="icon">📖</div>
-      <h2>Skill</h2>
-      <div class="tagline">Anleitung die Claude liest</div>
-      <p>Eine Markdown-Datei mit Frontmatter. Lädt automatisch, sobald die Beschreibung zur Aufgabe passt.</p>
+      <span class="num">02 · Skill</span>
+      <img class="photo" src="images/skill.jpg" alt="Aufgeschlagenes Lederbuch mit handschriftlichen Notizen und Federkiel — Metapher für Skill als Anleitung." loading="lazy">
+      <div class="accent"></div>
+      <div class="body">
+        <h2>Skill</h2>
+        <div class="tagline">Anleitung die Claude liest</div>
+        <p>Eine Markdown-Datei mit Frontmatter. Lädt automatisch, sobald die Beschreibung zur Aufgabe passt.</p>
 <pre><span class="c"># Skill-Datei anlegen</span>
 ~/.claude/skills/<span class="k">my-skill</span>/SKILL.md
 &nbsp;
 <span class="c">---</span>
 description: Summarize git diff
 <span class="c">---</span></pre>
-      <div class="docs">
-        <a href="https://code.claude.com/docs/en/skills" target="_blank" rel="noopener">Docs</a>
+        <div class="docs">
+          <a href="https://code.claude.com/docs/en/skills" target="_blank" rel="noopener">Docs</a>
+        </div>
       </div>
     </article>
 
     <article class="card plugin">
-      <span class="num">03</span>
-      <div class="icon">📦</div>
-      <h2>Plugin</h2>
-      <div class="tagline">Bündel zum Verteilen</div>
-      <p>Skills, MCPs, Slash-Commands und Hooks in einem versionierten Paket. Aus einem Marketplace installiert.</p>
+      <span class="num">03 · Plugin</span>
+      <img class="photo" src="images/plugin.jpg" alt="Stapel von gealterten Holzkisten mit Messingbeschlägen — Metapher für Plugin als Bündel zum Verteilen." loading="lazy">
+      <div class="accent"></div>
+      <div class="body">
+        <h2>Plugin</h2>
+        <div class="tagline">Bündel zum Verteilen</div>
+        <p>Skills, MCPs, Slash-Commands und Hooks in einem versionierten Paket. Aus einem Marketplace installiert.</p>
 <pre><span class="c"># Aus offiziellem Marketplace</span>
 /plugin install \
   <span class="k">frontend-design</span>@claude-plugins-official</pre>
-      <div class="docs">
-        <a href="https://code.claude.com/docs/en/plugins" target="_blank" rel="noopener">Docs</a>
-        <a href="https://claude.com/plugins" target="_blank" rel="noopener">Marketplace</a>
+        <div class="docs">
+          <a href="https://code.claude.com/docs/en/plugins" target="_blank" rel="noopener">Docs</a>
+          <a href="https://claude.com/plugins" target="_blank" rel="noopener">Marketplace</a>
+        </div>
       </div>
     </article>
 
