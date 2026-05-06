@@ -2,425 +2,335 @@
 <html lang="de">
 <head>
 <meta charset="utf-8">
-<title>Plugins, Skills, MCPs — was ist was?</title>
+<title>Plugins, Skills, MCPs | Claude Code Erweiterungen</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Drei Wege Claude Code zu erweitern. Eine Seite. Eine Entscheidung.">
+<meta name="description" content="Drei Wege Claude Code zu erweitern — MCP, Skills, Plugins. Klar verschieden, oft verwechselt. Eine einseitige Erklärung im Stil von Austrian Standards.">
+
+<!-- Roboto Flex (the font Austrian Standards' CSS expects) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,300..900&display=swap" rel="stylesheet">
+
+<!-- Reused, unmodified Austrian Standards production stylesheet -->
+<link rel="stylesheet" href="asat.css">
+
 <style>
-  :root {
-    --bg: #faf6ef;
-    --ink: #15110b;
-    --ink-soft: #6a6358;
-    --ink-faint: #9a9484;
-    --paper: #ffffff;
-    --line: #ece5d4;
+  /* Tiny additions on top of asat.css — only spacing, image framing, code blocks. */
+  body { background: #fff; }
+  main { display: block; }
+  section.organism { padding: 48px 0; }
+  section.organism + section.organism { padding-top: 0; }
 
-    --mcp:    #a78bfa;
-    --mcp-soft:#ede9fe;
-    --mcp-deep:#5b21b6;
-
-    --skill:  #2dd4bf;
-    --skill-soft:#ccfbf1;
-    --skill-deep:#0d9488;
-
-    --plugin: #fbbf24;
-    --plugin-soft:#fef3c7;
-    --plugin-deep:#b45309;
+  .top-band {
+    border-bottom: 1px solid #d9dadb;
+    background: #fff;
   }
-  * { box-sizing: border-box; }
-  html, body {
-    margin: 0; padding: 0;
-    background:
-      radial-gradient(900px 700px at 90% -10%, #ede9fe 0%, transparent 55%),
-      radial-gradient(800px 600px at -10% 30%, #ccfbf1 0%, transparent 55%),
-      radial-gradient(700px 500px at 60% 110%, #fef3c7 0%, transparent 60%),
-      var(--bg);
-    color: var(--ink);
-    font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Inter", system-ui, sans-serif;
-    -webkit-font-smoothing: antialiased;
-  }
-  a { color: inherit; }
-  code, pre { font-family: ui-monospace, "JetBrains Mono", "SF Mono", Menlo, monospace; }
-
-  .wrap {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 88px 32px 96px;
-  }
-
-  /* ---------- HERO ---------- */
-  .eyebrow {
-    display: inline-block;
-    font-size: 11px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--ink-soft);
-    margin-bottom: 28px;
-  }
-  h1 {
-    font-size: clamp(48px, 8.5vw, 104px);
-    line-height: 0.96;
-    letter-spacing: -0.035em;
-    margin: 0 0 28px;
-    font-weight: 800;
-  }
-  h1 .pill {
-    display: inline-block;
-    padding: 0.04em 0.22em 0.08em;
-    border-radius: 0.18em;
-    transform: rotate(-1.5deg);
-    margin: 0 0.04em;
-  }
-  h1 .pill.mcp    { background: var(--mcp);    color: #1a1135; transform: rotate(-2.2deg); }
-  h1 .pill.skill  { background: var(--skill);  color: #0a2a26; transform: rotate(1.8deg); }
-  h1 .pill.plugin { background: var(--plugin); color: #3a2806; transform: rotate(-1deg); }
-  .lede {
-    font-size: clamp(18px, 2vw, 22px);
-    color: var(--ink-soft);
-    max-width: 540px;
-    line-height: 1.5;
-    margin: 0;
-  }
-
-  /* ---------- THREE CARDS ---------- */
-  .cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 22px;
-    margin: 96px 0 0;
-  }
-  .card {
-    background: var(--paper);
-    border-radius: 24px;
-    padding: 0;
-    border: 1.5px solid var(--line);
-    box-shadow: 0 1px 0 rgba(0,0,0,0.02), 0 30px 50px -36px rgba(0,0,0,0.22);
-    transition: transform 0.2s cubic-bezier(.2,.7,.2,1), box-shadow 0.2s, border-color 0.2s;
-    position: relative;
-    min-width: 0;
+  .top-band__inner {
     display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
-  .card .photo {
-    width: 100%;
-    aspect-ratio: 16/9;
-    object-fit: cover;
-    display: block;
-    border-bottom: 1.5px solid var(--line);
-  }
-  .card .body {
-    padding: 28px 30px 30px;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-  }
-  .card:hover { transform: translateY(-4px); }
-  .card.mcp:hover    { border-color: var(--mcp); }
-  .card.skill:hover  { border-color: var(--skill); }
-  .card.plugin:hover { border-color: var(--plugin); }
-
-  .card .num {
-    position: absolute; top: 16px; right: 18px;
-    font-family: ui-monospace, monospace;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 1.2px;
-    background: rgba(15,14,10,0.78);
-    color: #f7f1e1;
-    padding: 4px 10px;
-    border-radius: 999px;
-    backdrop-filter: blur(4px);
-  }
-  .card .accent {
-    height: 4px;
-    width: 100%;
-  }
-  .card.mcp    .accent { background: var(--mcp); }
-  .card.skill  .accent { background: var(--skill); }
-  .card.plugin .accent { background: var(--plugin); }
-
-  .card h2 {
-    font-size: 32px;
-    letter-spacing: -0.02em;
-    margin: 0 0 6px;
-    font-weight: 800;
-  }
-  .card .tagline {
-    font-size: 13px;
-    color: var(--ink-faint);
-    margin: 0 0 22px;
-    letter-spacing: 0.4px;
-    text-transform: uppercase;
-    font-weight: 600;
-  }
-  .card p {
-    font-size: 17px;
-    color: var(--ink);
-    margin: 0 0 28px;
-    line-height: 1.45;
-    flex: 1;
-  }
-  .card pre {
-    background: #0f0e0a;
-    color: #f7f1e1;
-    border-radius: 12px;
-    padding: 14px 16px;
-    margin: 0 0 18px;
-    font-size: 12.5px;
-    overflow-x: auto;
-    line-height: 1.5;
-  }
-  .card pre .c { color: #9a9484; }
-  .card pre .k { color: #fbbf24; }
-  .card .docs {
-    margin-top: auto;
-    padding-top: 4px;
-    font-size: 14px;
-    font-weight: 600;
-  }
-  .card .docs a {
-    text-decoration: none;
-    color: var(--ink);
-    border-bottom: 1.5px solid currentColor;
-    padding-bottom: 1px;
-    transition: color 0.15s;
-  }
-  .card.mcp    .docs a:hover { color: var(--mcp-deep); }
-  .card.skill  .docs a:hover { color: var(--skill-deep); }
-  .card.plugin .docs a:hover { color: var(--plugin-deep); }
-  .card .docs a + a { margin-left: 18px; }
-
-  /* ---------- DECISION ---------- */
-  .decide {
-    margin-top: 120px;
-    text-align: center;
-  }
-  .decide h2 {
-    font-size: clamp(32px, 4.5vw, 56px);
-    letter-spacing: -0.025em;
-    margin: 0 0 56px;
-    font-weight: 800;
-    line-height: 1.05;
-  }
-  .qline {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 14px;
-    max-width: 720px;
-    margin: 0 auto;
-  }
-  .qline .row {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    gap: 24px;
-    background: var(--paper);
-    border-radius: 18px;
-    padding: 22px 28px;
-    border: 1.5px solid var(--line);
-    text-align: left;
-    transition: border-color 0.2s, transform 0.2s;
-  }
-  .qline .row:hover { transform: translateY(-2px); }
-  .qline .row.mcp:hover    { border-color: var(--mcp); }
-  .qline .row.skill:hover  { border-color: var(--skill); }
-  .qline .row.plugin:hover { border-color: var(--plugin); }
-  .qline .ask {
-    font-size: 17px;
-    line-height: 1.35;
-    color: var(--ink);
-  }
-  .qline .arrow {
-    color: var(--ink-faint);
-    font-size: 22px;
-  }
-  .qline .ans {
-    font-size: 18px;
-    font-weight: 800;
-    letter-spacing: -0.005em;
-    text-align: right;
-  }
-  .qline .row.mcp    .ans { color: var(--mcp-deep); }
-  .qline .row.skill  .ans { color: var(--skill-deep); }
-  .qline .row.plugin .ans { color: var(--plugin-deep); }
-
-  /* ---------- READ MORE ---------- */
-  .more {
-    margin-top: 120px;
-    text-align: center;
-  }
-  .more h2 {
-    font-size: 14px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-    font-weight: 700;
-    margin: 0 0 24px;
-  }
-  .links {
-    display: flex;
+    justify-content: space-between;
+    padding: 18px 0;
+    gap: 16px;
     flex-wrap: wrap;
-    justify-content: center;
-    gap: 8px 14px;
-    max-width: 800px;
-    margin: 0 auto;
   }
-  .links a {
+  .top-band__brand {
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    font-size: 16px;
+    color: #000;
     text-decoration: none;
-    background: var(--paper);
-    border: 1.5px solid var(--line);
-    color: var(--ink);
-    padding: 8px 14px;
-    border-radius: 999px;
-    font-size: 14px;
-    font-weight: 500;
+  }
+  .top-band__brand .accent { color: #c50e1f; }
+  .top-band__nav { display: flex; align-items: center; gap: 24px; font-size: 14px; }
+
+  .full-bleed-hero-image__image { aspect-ratio: 1920/780; overflow: hidden; background: #f2f2f2; }
+  .full-bleed-hero-image__image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .as-card {
+    background: #fff;
+    border: 1px solid #d9dadb;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
     transition: border-color 0.15s, transform 0.15s;
   }
-  .links a:hover { border-color: var(--ink); transform: translateY(-1px); }
-
-  /* ---------- FOOTER ---------- */
-  footer {
-    margin-top: 96px;
-    padding-top: 32px;
-    border-top: 1px solid var(--line);
-    color: var(--ink-faint);
-    font-size: 13px;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
+  .as-card:hover { border-color: #c50e1f; transform: translateY(-2px); }
+  .as-card__media { aspect-ratio: 16/9; overflow: hidden; background: #f2f2f2; }
+  .as-card__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .as-card__body { padding: 24px 24px 28px; display: flex; flex-direction: column; flex: 1; }
+  .as-card__overline {
+    font-size: 12px; letter-spacing: 1.6px; text-transform: uppercase; color: #c50e1f;
+    font-weight: 700; margin-bottom: 8px;
   }
-  footer a {
+  .as-card__title {
+    font-size: 28px; font-weight: 700; letter-spacing: -0.01em; margin: 0 0 8px;
+    color: #000; line-height: 1.15;
+  }
+  .as-card__sub { font-size: 14px; color: #4b4b4d; margin: 0 0 14px; }
+  .as-card__text { font-size: 16px; color: #000; line-height: 1.5; margin: 0 0 18px; }
+  .as-card pre {
+    background: #f2f2f2;
+    color: #000;
+    border-left: 3px solid #c50e1f;
+    padding: 12px 14px;
+    font-family: ui-monospace, "JetBrains Mono", "SF Mono", Menlo, monospace;
+    font-size: 12.5px;
+    line-height: 1.5;
+    margin: 0 0 16px;
+    overflow-x: auto;
+    white-space: pre;
+  }
+  .as-card pre .c { color: #4b4b4d; }
+  .as-card pre .k { color: #c50e1f; font-weight: 600; }
+  .as-card__links { margin-top: auto; padding-top: 8px; display: flex; gap: 18px; flex-wrap: wrap; }
+
+  .decide {
+    background: #f8f8f8;
+    border-top: 1px solid #d9dadb;
+    border-bottom: 1px solid #d9dadb;
+    padding: 64px 0;
+  }
+  .decide h2 {
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    margin: 0 0 32px;
+    color: #000;
+  }
+  .decide-row {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 24px;
+    align-items: center;
+    background: #fff;
+    border: 1px solid #d9dadb;
+    border-left: 4px solid #c50e1f;
+    padding: 20px 28px;
+    margin-bottom: 12px;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .decide-row:hover { background: #fbf3f4; }
+  .decide-row .ask { font-size: 17px; color: #000; line-height: 1.4; }
+  .decide-row .arrow { color: #c50e1f; font-weight: 700; font-size: 22px; }
+  .decide-row .ans { font-size: 20px; font-weight: 700; color: #c50e1f; text-align: right; }
+
+  .read-more h2 {
+    font-size: 12px; letter-spacing: 1.8px; text-transform: uppercase;
+    color: #4b4b4d; font-weight: 700; margin: 0 0 16px;
+  }
+  .read-more__list { display: flex; flex-wrap: wrap; gap: 8px 12px; }
+  .read-more__list a {
+    background: #fff;
+    border: 1px solid #d9dadb;
+    color: #000;
+    padding: 8px 14px;
+    font-size: 14px;
+    font-weight: 500;
     text-decoration: none;
-    color: var(--ink-soft);
-    border-bottom: 1px solid var(--line);
+    transition: border-color 0.15s, color 0.15s;
   }
-  footer a:hover { color: var(--ink); border-bottom-color: var(--ink); }
+  .read-more__list a:hover { border-color: #c50e1f; color: #c50e1f; }
 
-  /* ---------- RESPONSIVE ---------- */
-  @media (max-width: 880px) {
-    .wrap { padding: 56px 22px 64px; }
-    .cards { grid-template-columns: 1fr; gap: 16px; margin-top: 64px; }
-    .qline .row { grid-template-columns: 1fr; gap: 8px; padding: 20px 22px; }
-    .qline .arrow { display: none; }
-    .qline .ans { text-align: left; }
-    .decide { margin-top: 80px; }
-    .more { margin-top: 80px; }
+  footer.site-footer {
+    background: #000;
+    color: #fff;
+    padding: 32px 0;
+    margin-top: 48px;
+    font-size: 14px;
+  }
+  footer.site-footer .container { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+  footer.site-footer a { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
+  footer.site-footer .accent { color: #c50e1f; }
+
+  /* Inline-link safety: sometimes asat.css colors them red, mimic */
+  a.inline-link {
+    color: #c50e1f;
+    text-decoration: none;
+    border-bottom: 1px solid #c50e1f;
+    padding-bottom: 1px;
+    font-weight: 500;
+  }
+  a.inline-link:hover { color: #000; border-bottom-color: #000; }
+
+  @media (max-width: 768px) {
+    .decide-row { grid-template-columns: 1fr; gap: 6px; }
+    .decide-row .arrow { display: none; }
+    .decide-row .ans { text-align: left; }
   }
 </style>
 </head>
-<body>
-<div class="wrap">
+<body class="document-root theme-base">
 
-  <header>
-    <span class="eyebrow">Claude Code · Wien · 06.05.2026</span>
-    <h1>
-      <span class="pill mcp">Plugins</span>,<br>
-      <span class="pill skill">Skills</span>,<br>
-      <span class="pill plugin">MCPs</span>.
-    </h1>
-    <p class="lede">Drei Wege, Claude Code zu erweitern. Klar verschieden, oft verwechselt.</p>
-  </header>
+<!-- TOP BAND (brand bar like AS but for our subject) -->
+<div class="top-band">
+  <div class="container top-band__inner">
+    <a class="top-band__brand" href="#">Claude Code <span class="accent">· Erweiterungen</span></a>
+    <nav class="top-band__nav">
+      <a class="inline-link" href="#cards">Übersicht</a>
+      <a class="inline-link" href="#decide">Welcher Weg?</a>
+      <a class="inline-link" href="https://github.com/nichtagentur/cc-extensions" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+  </div>
+</div>
 
-  <section class="cards">
+<main>
 
-    <article class="card mcp">
-      <span class="num">01 · MCP</span>
-      <img class="photo" src="images/mcp.jpg" alt="Lederwerkzeugrolle mit Messingpräzisionsinstrumenten auf einer Werkbank — Metapher für MCP als Werkzeugsatz zur Laufzeit." loading="lazy">
-      <div class="accent"></div>
-      <div class="body">
-        <h2>MCP</h2>
-        <div class="tagline">Tools zur Laufzeit</div>
-        <p>Ein externer Prozess gibt Claude Werkzeuge — eine API anrufen, einen Browser steuern, eine Datenbank lesen.</p>
+  <!-- FULL-BLEED HERO (Austrian-Standards style) -->
+  <section class="organism full-bleed-hero-image" id="full-bleed-hero-image-1">
+    <div class="full-bleed-hero-image__image">
+      <picture>
+        <img src="images/mcp.jpg" alt="Lederwerkzeugrolle mit Präzisionsinstrumenten — Metapher für Claude Code Erweiterungen" loading="eager">
+      </picture>
+    </div>
+    <div class="container full-bleed-hero-image__information">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="full-bleed-hero-image__headline">Plugins, Skills,<br>MCPs.</h1>
+          <div class="full-bleed-hero-image__text">Drei Wege, Claude Code zu erweitern. Klar verschieden, oft verwechselt.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEDE TEXT BLOCK -->
+  <section class="organism" id="lede">
+    <div class="container text-block">
+      <div class="row">
+        <div class="col-12 col-md-8">
+          <div class="type__overline type__overline--1">Claude Code · Erweiterungen</div>
+          <p class="type__copy type__copy--1">Wenn Claude Code etwas Neues lernen soll, gibt es drei Mechanismen. Sie heißen ähnlich, sie tun ähnliches — und doch sind sie klar verschieden. Diese Seite erklärt in einem Sitz, welcher davon für welche Aufgabe gemacht ist, mit lauffähigen Befehlen und Direktlinks zur offiziellen Doku.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THREE CARDS (Austrian-Standards card aesthetic) -->
+  <section class="organism" id="cards">
+    <div class="container">
+      <div class="row g-3 g-md-4">
+        <div class="col-12 col-md-4 d-flex">
+          <article class="as-card">
+            <div class="as-card__media">
+              <img src="images/mcp.jpg" alt="Lederwerkzeugrolle mit Messinginstrumenten" loading="lazy">
+            </div>
+            <div class="as-card__body">
+              <div class="as-card__overline">01 · MCP</div>
+              <h3 class="as-card__title">MCP-Server</h3>
+              <div class="as-card__sub">Tools zur Laufzeit</div>
+              <p class="as-card__text">Ein externer Prozess gibt Claude Werkzeuge — eine API anrufen, einen Browser steuern, eine Datenbank lesen.</p>
 <pre><span class="c"># Chrome-DevTools als MCP</span>
 <span class="k">claude</span> mcp add chrome-devtools \
   -- npx -y chrome-devtools-mcp@latest</pre>
-        <div class="docs">
-          <a href="https://code.claude.com/docs/en/mcp" target="_blank" rel="noopener">Docs</a>
-          <a href="https://modelcontextprotocol.io" target="_blank" rel="noopener">Spec</a>
+              <div class="as-card__links">
+                <a class="inline-link" href="https://code.claude.com/docs/en/mcp" target="_blank" rel="noopener">Docs</a>
+                <a class="inline-link" href="https://modelcontextprotocol.io" target="_blank" rel="noopener">Spec</a>
+              </div>
+            </div>
+          </article>
         </div>
-      </div>
-    </article>
 
-    <article class="card skill">
-      <span class="num">02 · Skill</span>
-      <img class="photo" src="images/skill.jpg" alt="Aufgeschlagenes Lederbuch mit handschriftlichen Notizen und Federkiel — Metapher für Skill als Anleitung." loading="lazy">
-      <div class="accent"></div>
-      <div class="body">
-        <h2>Skill</h2>
-        <div class="tagline">Anleitung die Claude liest</div>
-        <p>Eine Markdown-Datei mit Frontmatter. Lädt automatisch, sobald die Beschreibung zur Aufgabe passt.</p>
+        <div class="col-12 col-md-4 d-flex">
+          <article class="as-card">
+            <div class="as-card__media">
+              <img src="images/skill.jpg" alt="Aufgeschlagenes Lederbuch mit handschriftlichen Feldnotizen" loading="lazy">
+            </div>
+            <div class="as-card__body">
+              <div class="as-card__overline">02 · Skill</div>
+              <h3 class="as-card__title">Agent Skills</h3>
+              <div class="as-card__sub">Anleitung die Claude liest</div>
+              <p class="as-card__text">Eine Markdown-Datei mit Frontmatter. Lädt automatisch, sobald die Beschreibung zur Aufgabe passt.</p>
 <pre><span class="c"># Skill-Datei anlegen</span>
 ~/.claude/skills/<span class="k">my-skill</span>/SKILL.md
-&nbsp;
+
 <span class="c">---</span>
 description: Summarize git diff
 <span class="c">---</span></pre>
-        <div class="docs">
-          <a href="https://code.claude.com/docs/en/skills" target="_blank" rel="noopener">Docs</a>
+              <div class="as-card__links">
+                <a class="inline-link" href="https://code.claude.com/docs/en/skills" target="_blank" rel="noopener">Docs</a>
+              </div>
+            </div>
+          </article>
         </div>
-      </div>
-    </article>
 
-    <article class="card plugin">
-      <span class="num">03 · Plugin</span>
-      <img class="photo" src="images/plugin.jpg" alt="Stapel von gealterten Holzkisten mit Messingbeschlägen — Metapher für Plugin als Bündel zum Verteilen." loading="lazy">
-      <div class="accent"></div>
-      <div class="body">
-        <h2>Plugin</h2>
-        <div class="tagline">Bündel zum Verteilen</div>
-        <p>Skills, MCPs, Slash-Commands und Hooks in einem versionierten Paket. Aus einem Marketplace installiert.</p>
+        <div class="col-12 col-md-4 d-flex">
+          <article class="as-card">
+            <div class="as-card__media">
+              <img src="images/plugin.jpg" alt="Stapel gealterter Holzkisten mit Messingbeschlägen" loading="lazy">
+            </div>
+            <div class="as-card__body">
+              <div class="as-card__overline">03 · Plugin</div>
+              <h3 class="as-card__title">Plugins</h3>
+              <div class="as-card__sub">Bündel zum Verteilen</div>
+              <p class="as-card__text">Skills, MCPs, Slash-Commands und Hooks in einem versionierten Paket. Aus einem Marketplace installiert.</p>
 <pre><span class="c"># Aus offiziellem Marketplace</span>
 /plugin install \
   <span class="k">frontend-design</span>@claude-plugins-official</pre>
-        <div class="docs">
-          <a href="https://code.claude.com/docs/en/plugins" target="_blank" rel="noopener">Docs</a>
-          <a href="https://claude.com/plugins" target="_blank" rel="noopener">Marketplace</a>
+              <div class="as-card__links">
+                <a class="inline-link" href="https://code.claude.com/docs/en/plugins" target="_blank" rel="noopener">Docs</a>
+                <a class="inline-link" href="https://claude.com/plugins" target="_blank" rel="noopener">Marketplace</a>
+              </div>
+            </div>
+          </article>
         </div>
       </div>
-    </article>
-
+    </div>
   </section>
 
-  <section class="decide">
-    <h2>Welcher Weg ist meiner?</h2>
-    <div class="qline">
-      <div class="row mcp">
-        <div class="ask">Brauchst du Tools, Daten oder Aktionen in Echtzeit?</div>
-        <div class="arrow">→</div>
-        <div class="ans">MCP</div>
-      </div>
-      <div class="row skill">
-        <div class="ask">Wiederholt sich derselbe Arbeitsablauf?</div>
-        <div class="arrow">→</div>
-        <div class="ans">Skill</div>
-      </div>
-      <div class="row plugin">
-        <div class="ask">Willst du das mit anderen teilen?</div>
-        <div class="arrow">→</div>
-        <div class="ans">Plugin</div>
+  <!-- DECISION TREE -->
+  <section class="organism decide" id="decide">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 col-md-10 col-lg-9">
+          <div class="type__overline type__overline--1">Welcher Weg ist meiner?</div>
+          <h2>Drei Fragen, drei Antworten.</h2>
+          <div class="decide-row">
+            <div class="ask">Brauchst du Tools, Daten oder Aktionen in Echtzeit?</div>
+            <div class="arrow">→</div>
+            <div class="ans">MCP</div>
+          </div>
+          <div class="decide-row">
+            <div class="ask">Wiederholt sich derselbe Arbeitsablauf?</div>
+            <div class="arrow">→</div>
+            <div class="ans">Skill</div>
+          </div>
+          <div class="decide-row">
+            <div class="ask">Willst du das mit anderen teilen?</div>
+            <div class="arrow">→</div>
+            <div class="ans">Plugin</div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="more">
-    <h2>Mehr lesen</h2>
-    <div class="links">
-      <a href="https://code.claude.com/docs/en/mcp" target="_blank" rel="noopener">MCP-Integration</a>
-      <a href="https://modelcontextprotocol.io" target="_blank" rel="noopener">MCP-Spec</a>
-      <a href="https://code.claude.com/docs/en/skills" target="_blank" rel="noopener">Skills</a>
-      <a href="https://code.claude.com/docs/en/plugins" target="_blank" rel="noopener">Plugins</a>
-      <a href="https://code.claude.com/docs/en/discover-plugins" target="_blank" rel="noopener">Plugins finden</a>
-      <a href="https://code.claude.com/docs/en/plugin-marketplaces" target="_blank" rel="noopener">Marketplaces bauen</a>
-      <a href="https://claude.com/plugins" target="_blank" rel="noopener">Offizieller Store</a>
+  <!-- READ MORE -->
+  <section class="organism read-more">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 col-md-10">
+          <h2>Mehr lesen</h2>
+          <div class="read-more__list">
+            <a href="https://code.claude.com/docs/en/mcp" target="_blank" rel="noopener">MCP-Integration</a>
+            <a href="https://modelcontextprotocol.io" target="_blank" rel="noopener">MCP-Spec</a>
+            <a href="https://code.claude.com/docs/en/skills" target="_blank" rel="noopener">Skills</a>
+            <a href="https://code.claude.com/docs/en/plugins" target="_blank" rel="noopener">Plugins</a>
+            <a href="https://code.claude.com/docs/en/discover-plugins" target="_blank" rel="noopener">Plugins finden</a>
+            <a href="https://code.claude.com/docs/en/plugin-marketplaces" target="_blank" rel="noopener">Marketplaces bauen</a>
+            <a href="https://claude.com/plugins" target="_blank" rel="noopener">Offizieller Store</a>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <footer>
-    <span>AI Computer Use Workshop · Wien · 06.05.2026</span>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <span>AI Computer Use Workshop <span class="accent">·</span> Wien <span class="accent">·</span> 06.05.2026</span>
     <a href="https://github.com/nichtagentur/cc-extensions" target="_blank" rel="noopener">GitHub →</a>
-  </footer>
+  </div>
+</footer>
 
-</div>
 </body>
 </html>
